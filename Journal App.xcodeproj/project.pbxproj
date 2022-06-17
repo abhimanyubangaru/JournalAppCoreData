@@ -8,21 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		2866B46728592FE900779BCE /* Journal_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B46628592FE900779BCE /* Journal_AppApp.swift */; };
-		2866B46928592FE900779BCE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B46828592FE900779BCE /* ContentView.swift */; };
 		2866B46B28592FE900779BCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2866B46A28592FE900779BCE /* Assets.xcassets */; };
 		2866B46E28592FE900779BCE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2866B46D28592FE900779BCE /* Preview Assets.xcassets */; };
 		2866B47028592FE900779BCE /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B46F28592FE900779BCE /* Persistence.swift */; };
 		2866B47328592FE900779BCE /* Journal_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2866B47128592FE900779BCE /* Journal_App.xcdatamodeld */; };
+		2866B4A32859618F00779BCE /* EntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B4A22859618F00779BCE /* EntriesView.swift */; };
+		2866B4A52859622D00779BCE /* EntriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B4A42859622D00779BCE /* EntriesViewModel.swift */; };
+		2866B4A7285966E400779BCE /* AddEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B4A6285966E400779BCE /* AddEntryView.swift */; };
+		2866B4A92859962300779BCE /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B4A82859962300779BCE /* EntryView.swift */; };
+		2866B4AD285A888900779BCE /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B4AC285A888900779BCE /* SearchView.swift */; };
+		2866B4AF285AA2E500779BCE /* RectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B4AE285AA2E500779BCE /* RectangleView.swift */; };
+		2866B4CB285C013100779BCE /* AnimatableGradientModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866B4CA285C013100779BCE /* AnimatableGradientModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2866B46328592FE900779BCE /* Journal App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Journal App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2866B46628592FE900779BCE /* Journal_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journal_AppApp.swift; sourceTree = "<group>"; };
-		2866B46828592FE900779BCE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2866B46A28592FE900779BCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2866B46D28592FE900779BCE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2866B46F28592FE900779BCE /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2866B47228592FE900779BCE /* Journal_App.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal_App.xcdatamodel; sourceTree = "<group>"; };
+		2866B4A22859618F00779BCE /* EntriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesView.swift; sourceTree = "<group>"; };
+		2866B4A42859622D00779BCE /* EntriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModel.swift; sourceTree = "<group>"; };
+		2866B4A6285966E400779BCE /* AddEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEntryView.swift; sourceTree = "<group>"; };
+		2866B4A82859962300779BCE /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
+		2866B4AC285A888900779BCE /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		2866B4AE285AA2E500779BCE /* RectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleView.swift; sourceTree = "<group>"; };
+		2866B4CA285C013100779BCE /* AnimatableGradientModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableGradientModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +68,13 @@
 			isa = PBXGroup;
 			children = (
 				2866B46628592FE900779BCE /* Journal_AppApp.swift */,
-				2866B46828592FE900779BCE /* ContentView.swift */,
+				2866B4A42859622D00779BCE /* EntriesViewModel.swift */,
+				2866B4A22859618F00779BCE /* EntriesView.swift */,
+				2866B4AE285AA2E500779BCE /* RectangleView.swift */,
+				2866B4CA285C013100779BCE /* AnimatableGradientModifier.swift */,
+				2866B4AC285A888900779BCE /* SearchView.swift */,
+				2866B4A82859962300779BCE /* EntryView.swift */,
+				2866B4A6285966E400779BCE /* AddEntryView.swift */,
 				2866B46A28592FE900779BCE /* Assets.xcassets */,
 				2866B46F28592FE900779BCE /* Persistence.swift */,
 				2866B47128592FE900779BCE /* Journal_App.xcdatamodeld */,
@@ -143,10 +161,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2866B4CB285C013100779BCE /* AnimatableGradientModifier.swift in Sources */,
 				2866B47028592FE900779BCE /* Persistence.swift in Sources */,
-				2866B46928592FE900779BCE /* ContentView.swift in Sources */,
+				2866B4A32859618F00779BCE /* EntriesView.swift in Sources */,
 				2866B46728592FE900779BCE /* Journal_AppApp.swift in Sources */,
+				2866B4A7285966E400779BCE /* AddEntryView.swift in Sources */,
+				2866B4AD285A888900779BCE /* SearchView.swift in Sources */,
+				2866B4AF285AA2E500779BCE /* RectangleView.swift in Sources */,
+				2866B4A92859962300779BCE /* EntryView.swift in Sources */,
 				2866B47328592FE900779BCE /* Journal_App.xcdatamodeld in Sources */,
+				2866B4A52859622D00779BCE /* EntriesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

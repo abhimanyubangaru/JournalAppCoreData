@@ -1,5 +1,5 @@
-//
-//  Persistence.swift
+  //
+//   Persistence.swift
 //  Journal App
 //
 //  Created by Abhi B on 6/14/22.
@@ -27,7 +27,7 @@ struct PersistenceController {
         }
         return result
     }()
-
+   
     let container: NSPersistentContainer
 
     init(inMemory: Bool = false) {

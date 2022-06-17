@@ -9,12 +9,13 @@ import SwiftUI
 
 @main
 struct Journal_AppApp: App {
-    let persistenceController = PersistenceController.shared
+    @StateObject var vm = EntriesViewModel()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            EntriesView()
+                .environmentObject(vm)
+                .environment(\.managedObjectContext, vm.container.viewContext)
         }
     }
 }
