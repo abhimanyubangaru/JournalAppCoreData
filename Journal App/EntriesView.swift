@@ -9,8 +9,12 @@ import SwiftUI
 
 struct EntriesView: View {
     @EnvironmentObject var vm : EntriesViewModel
-    @State private var showAddEntries = false
     @State private var showFilter = false
+    @State private var showChart = false
+    @State private var showFilterChoices = false
+    
+    @State private var filterType = "memorableMoment"
+    
     @State private var filterText = "";
     @State private var showDeleteAlert = false
     @State private var entryToDelete : JournalEntry?
@@ -26,28 +30,36 @@ struct EntriesView: View {
 
     
     var body: some View {
-        GeometryReader{ geomtery in
+        GeometryReader{ geometry in
             NavigationView {
                 ZStack{
-                    
                     AngularGradient(gradient: Gradient(colors: [Color(gradientColor1),Color(gradientColor2),Color(gradientColor2),Color(gradientColor1)]), center: .topLeading)
                         .opacity(0.5)
                         .edgesIgnoringSafeArea(.all)
-                    VStack(alignment: .leading){
+                    VStack(alignment: .leading) {
                         if(showFilter){
                             VStack{
-                                ZStack(alignment: .center){
-                                    grayRectangle
-                                        .frame(maxHeight: geomtery.size.height / 20)
-                                    TextField("Enter search", text: $filterText)
-                                        .foregroundColor(.white)
-                                        .font(.subheadline)
-                                        .padding()
+                                HStack{
+                                    ZStack(alignment: .center){
+                                        grayRectangle
+                                            .frame(maxHeight: geometry.size.height / 20)
+                                        TextField("Enter search", text: $filterText)
+                                            .foregroundColor(.white)
+                                            .font(.subheadline)
+                                            .padding()
+                                        }
+                                    Button{
+                                        withAnimation{
+                                            showFilterChoices.toggle()
+                                        }
+                                    } label: {
+                                        Image(systemName: "gear")
                                     }
-                                SearchView(filterKey: "entry", filterValue: filterText) { (entry : JournalEntry) in
+                                }
+                                SearchView(filterKey: filterType, filterValue: filterText) { (entry : JournalEntry) in
                                     Text(entry.date!.formatted(date: .abbreviated, time: .omitted))
                                 }
-                                .frame(maxHeight: geomtery.size.height / 5)
+                                .frame(maxHeight: geometry.size.height / 5)
                             }
                             .padding(10)
                         }
@@ -57,8 +69,9 @@ struct EntriesView: View {
                                     NavigationLink {
                                         EntryView(entry: entry)
                                     } label: {
-                                        RectangleView(geometry: geomtery.size, content: entry.date?.formatted(date: .abbreviated, time: .omitted) ?? "BYE BYE", endColor: rectViewColor(for: Int(entry.moodNumber)))
+                                        RectangleView(geometry: geometry.size, content: entry.date?.formatted(date: .abbreviated, time: .omitted) ?? "BYE BYE", endColor: vm.rectViewColor(for: Int(entry.moodNumber)))
                                     }
+                                    
                                     .simultaneousGesture(longPressDeleteEntry(on: entry))
                                 }
                                 .transition(.asymmetric(insertion: .scale, removal: .opacity) )
@@ -67,9 +80,6 @@ struct EntriesView: View {
                             .padding()
                         }
                         .navigationBarTitle(" entries ")
-                        .sheet(isPresented: $showAddEntries) {
-                                AddEntryView()
-                        }
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button{
@@ -77,17 +87,26 @@ struct EntriesView: View {
                                         showFilter.toggle()
                                     }
                                 } label: {
-                                    Image(systemName: "magnifyingglass.circle.fill")
+                                    Image(systemName: showFilter ? "magnifyingglass.circle.fill" : "magnifyingglass.circle")
                                 }
                             }
                             ToolbarItem(placement: .navigationBarTrailing) {
-                                Button{
-                                    showAddEntries.toggle()
+                                NavigationLink{
+                                    AddEntryView(isPassedInThroughEdit: false )
                                 } label: {
                                     Image(systemName: "plus.circle")
                                 }
+                                
                             }
-                           
+                            ToolbarItem(placement: .navigationBarLeading){
+                                Button {
+                                    withAnimation {
+                                        showChart.toggle()
+                                    }
+                                } label: {
+                                    Image(systemName: "chart.xyaxis.line")
+                                }
+                            }
                         }
                         .alert(isPresented: $showDeleteAlert) {
                             Alert(title: Text("Confirm Deletion"),
@@ -102,6 +121,14 @@ struct EntriesView: View {
                             },
                                   secondaryButton: .cancel()
                             )
+                        }
+                        .actionSheet(isPresented: $showFilterChoices){
+                            ActionSheet(title: Text("Change filter \n The current one is \(filterType)"),  buttons:
+                                [
+                                    .default(Text("Entry")){self.filterType = "entry"},
+                                    .default(Text("Memorable Moment")){self.filterType = "memorableMoment"},
+                                    .cancel()
+                                ])
                         }
                     }
                 }
@@ -138,21 +165,7 @@ struct EntriesView: View {
             .cornerRadius(20)
     }
     
-    func rectViewColor(for num : Int) -> Color {
-        let color1 = #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1)
-        let color2 = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
-        let color3 = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        let color4 = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-        let color5 = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        let color6 = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
-        let color7 = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
-        let color8 = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
-        let color9 = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
-        let color10 = #colorLiteral(red: 0.8862745166, green: 0.8409167915, blue: 0, alpha: 1)
-        
-        let colors = [Color(color1),Color(color2),Color(color3),Color(color4),Color(color5), Color(color6),Color(color7),Color(color8),Color(color9),Color(color10), Color(.yellow)]
-        return colors[num]
-    }
+
 }
 
 struct EntriesView_Previews: PreviewProvider {

@@ -10,7 +10,10 @@ import SwiftUI
 struct AddEntryView: View {
     @EnvironmentObject var vm : EntriesViewModel
     @Environment(\.presentationMode) var presentationMode
-
+    
+    @State private var showingPicker = false
+    @State var isPassedInThroughEdit : Bool
+    
     
     @State private var date = Date()
     @State private var foundRep = false
@@ -18,18 +21,40 @@ struct AddEntryView: View {
     @State private var entryText = ""
     @State private var memorableMomentText = ""
     @State private var moodNumber : Double = 5
+    @State private var imageData : Data?
+    
+    @State private var displayChosenImage : Image?
     
     var body: some View {
         GeometryReader{ geometry in
+            
             Form{
-                
+
                 Section(header: Text("Choose the date of the entry")){
                     DatePicker("Entry's date", selection: $date, displayedComponents: .date)
                         .onChange(of: date) { newValue in
                             checkForRepetiton()
                         }
                 }
-                
+                Section(header: Text("PHOTO OF THE DAY")) {
+                  //  VStack(alignment: .leading){
+                        HStack {
+                            togglePhotoPicker
+                            Spacer()
+                            removeImage
+                        }
+                        HStack{
+                        if let displayChosenImage = displayChosenImage {
+                            displayChosenImage
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: geometry.size.width, height: geometry.size.height / 5)
+                        }
+                            Spacer()
+                        }
+                    //}
+                    
+                }
                 Section("How are you feeling?") {
                     Slider(value: $moodNumber, in: 0...10, step: 1)
                     Text("\(Int(moodNumber))")
@@ -38,41 +63,100 @@ struct AddEntryView: View {
                 Section(header: Text("Enter your entry's memorable moment")) {
                     TextEditor(text: $memorableMomentText)
                     .frame(width: geometry.size.width / 1.5, height: geometry.size.height / 6, alignment: .center)
+                    .keyboardType(.default)
                 }
                 
                 Section(header: Text("Enter your journal entry")) {
                     TextEditor(text: $entryText)
                     .frame(width: geometry.size.width / 1.5, height: geometry.size.height / 3, alignment: .center)
+                    .keyboardType(.default)
                 }
-                Section {
-                    button
+                
+                if(isPassedInThroughEdit){
+                    HStack{
+                        dismiss
+                        Spacer()
+                        button
+                    }
                 }
+                   
             }
         }
-        .navigationBarTitle("\(date)")
+        
+        .navigationBarTitle("\(date.formatted(date: .abbreviated, time: .omitted))")
+        .toolbar{
+            ToolbarItem{
+                button
+            }
+        }
         .padding()
         .onAppear(perform: checkFirst)
+        .sheet(isPresented: $showingPicker){
+            PhotoPicker(chosenImage: $displayChosenImage, imageData: $imageData)
+        }
+        
     }
     
     var button : some View {
-        Button("Submit"){
+        Button {
             if foundRep {
-                vm.updateEntry(entryEntity: repEntry!, entryText: entryText, memorableMomentText: memorableMomentText, moodNumber: moodNumber)
+                vm.updateEntry(entryEntity: repEntry!, entryText: entryText, memorableMomentText: memorableMomentText, moodNumber: moodNumber, imageData: imageData)
             } else {
-                vm.addEntry(entryText: entryText, memorableMoment: memorableMomentText, date: date, moodNumber: moodNumber)
+                vm.addEntry(entryText: entryText, memorableMoment: memorableMomentText, date: date, moodNumber: moodNumber,imageData: imageData)
             }
             self.presentationMode.wrappedValue.dismiss()
+        } label: {
+            Image(systemName: "checkmark.seal")
         }
     }
     
+    var dismiss : some View {
+        Button {
+            presentationMode.wrappedValue.dismiss()
+        } label: {
+            Image(systemName: "arrow.backward.circle")
+        }
+    }
+    
+    var togglePhotoPicker : some View {
+        Button {
+            showingPicker.toggle()
+        } label: {
+            Image(systemName: "photo.fill")
+
+        }
+        .buttonStyle(BorderlessButtonStyle())
+    }
+    
+    var removeImage : some View {
+        Button {
+            imageData = .none
+            displayChosenImage = .none
+        } label: {
+            Image(systemName: "rectangle.slash")
+        }
+        .buttonStyle(BorderlessButtonStyle())
+    }
+    
+    func updateChosenImage() {
+        if let imageData = imageData {
+            let image = UIImage(data: imageData)
+            displayChosenImage = Image(uiImage: image!)
+        }
+    }
+
     func checkFirst() {
-        if repEntry != nil {
-            self.moodNumber = Double(repEntry!.moodNumber)
-            self.memorableMomentText = repEntry!.memorableMoment ?? ""
-            self.entryText = repEntry!.entry ?? ""
-            self.date = repEntry!.date!
+        if let repEntry = repEntry {
+            self.moodNumber = Double(repEntry.moodNumber)
+            self.memorableMomentText = repEntry.memorableMoment ?? ""
+            self.entryText = repEntry.entry ?? ""
+            self.date = repEntry.date!
+            self.imageData = repEntry.imageData
+            var data = repEntry.imageData
+            if data != nil {
+                self.displayChosenImage = Image(uiImage: UIImage(data: repEntry.imageData!)!)
+            }
             foundRep = true
-            return
         } else {
             checkForRepetiton()
         }
@@ -89,18 +173,27 @@ struct AddEntryView: View {
                         self.entryText = entry.entry ?? ""
                         foundRep = true
                         self.repEntry = entry
+                        self.imageData = entry.imageData
+                        if let imageData = imageData {
+                            self.displayChosenImage = Image(uiImage: UIImage(data: imageData)!)
+                        } else {
+                            displayChosenImage = .none
+                        }
                         return
                     }
                 }
             foundRep = false
             repEntry = nil
             entryText = ""
+            moodNumber = 5
             memorableMomentText = ""
+            imageData = .none
+            displayChosenImage = .none
         }
 }
 
-struct AddEntryView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddEntryView()
-    }
-}
+//struct AddEntryView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddEntryView()
+//    }
+//}
