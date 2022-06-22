@@ -25,7 +25,7 @@ struct EntryView: View {
                                 Image(uiImage: UIImage(data: entry.imageData!)!)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: geometry.size.width * 0.99)
+                                .frame(maxWidth: geometry.size.width * 0.99, maxHeight: geometry.size.height / 3)
                             }
                             
                             Text(entry.memorableMoment ?? " NO mm")

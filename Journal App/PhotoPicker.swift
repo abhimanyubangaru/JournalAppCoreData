@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PhotosUI
 import SwiftUI
 
 struct PhotoPicker: UIViewControllerRepresentable {
@@ -13,38 +14,45 @@ struct PhotoPicker: UIViewControllerRepresentable {
     @Binding var chosenImage: Image?
     @Binding var imageData : Data?
     
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        let picker = PHPickerViewController(configuration: config)
         picker.delegate = context.coordinator
-        picker.allowsEditing = true 
         return picker
     }
-    
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
-        //dont need it rn
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
+
     }
-    
+
     func makeCoordinator() -> Coordinator {
-        return Coordinator(photoPicker: self)
+        Coordinator(self)
     }
-        
-    final class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
-        let photoPicker : PhotoPicker
-        
-        init(photoPicker : PhotoPicker){
-            self.photoPicker = photoPicker
+
+    class Coordinator: NSObject, PHPickerViewControllerDelegate {
+        let parent: PhotoPicker
+
+        init(_ parent: PhotoPicker) {
+            self.parent = parent
         }
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let image = info[.editedImage] as? UIImage {
-                guard let data = image.jpegData(compressionQuality: 0.1), let compressedImage = UIImage(data: data) else {
-                    return
-                }
-                photoPicker.imageData = data
-                photoPicker.chosenImage = Image(uiImage: compressedImage)
-            } else {
-                //return an error show in alert
-            }
+
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             picker.dismiss(animated: true)
+
+            guard let provider = results.first?.itemProvider else { return }
+
+            if provider.canLoadObject(ofClass: UIImage.self) {
+                provider.loadObject(ofClass: UIImage.self) { image, _ in
+                    if let image = image as? UIImage {
+                        guard let data = image.jpegData(compressionQuality: 0.1), let compressedImage = UIImage(data: data) else {
+                            return
+                        }
+                        self.parent.imageData = data
+                        self.parent.chosenImage = Image(uiImage: compressedImage)
+                    }
+                }
+            }
         }
     }
 }
