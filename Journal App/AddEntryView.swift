@@ -12,7 +12,7 @@ struct AddEntryView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var showingPicker = false
-    @State var isPassedInThroughEdit : Bool
+//    @State var isPassedInThroughEdit : Bool
     
     
     @State private var date = Date()
@@ -72,15 +72,18 @@ struct AddEntryView: View {
                     .keyboardType(.default)
                 }
                 
-                if(isPassedInThroughEdit){
-                    HStack{
-                        dismiss
-                        Spacer()
-                        button
-                    }
-                }
+//                if(isPassedInThroughEdit){
+//                    HStack{
+//                        dismiss
+//                        Spacer()
+//                        button
+//                    }
+//                }
                    
             }
+            .onTapGesture {
+                      self.hideKeyboard()
+                    }
         }
         
         .navigationBarTitle("\(date.formatted(date: .abbreviated, time: .omitted))")

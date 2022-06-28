@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
 struct EntriesView: View {
     @EnvironmentObject var vm : EntriesViewModel
     @State private var showFilter = false
@@ -92,7 +98,7 @@ struct EntriesView: View {
                             }
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 NavigationLink{
-                                    AddEntryView(isPassedInThroughEdit: false )
+                                    AddEntryView()
                                 } label: {
                                     Image(systemName: "plus.circle")
                                 }

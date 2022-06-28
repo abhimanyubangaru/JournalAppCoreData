@@ -39,10 +39,9 @@ struct EntryView: View {
                     }
                 }
                 .navigationBarTitle("Entry on \(entry.date?.formatted(date: .abbreviated, time: .omitted) ?? "DELETED")")
-                .sheet(isPresented: $showEdit){
-                    AddEntryView(isPassedInThroughEdit: true, repEntry: entry)
-
-                }
+//                .sheet(isPresented: $showEdit){
+//                    AddEntryView(isPassedInThroughEdit: true, repEntry: entry)
+//                }
                 .toolbar {
                 ToolbarItem(placement: .bottomBar) {
                     Button {
@@ -55,9 +54,9 @@ struct EntryView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button{
-                    //    AddEntryView(repEntry: entry)
-                        showEdit.toggle()
+                    NavigationLink{
+                        AddEntryView(repEntry: entry)
+                    //    showEdit.toggle()
                     } label: {
                         Image(systemName: "pencil")
                     }
