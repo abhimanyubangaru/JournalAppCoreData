@@ -8,3 +8,8 @@ Build Instructions:
   2. Click on the .xcodeproj file. 
   3. Open Xcode and at the top of the IDE, change the target to any simulator(or device of choice). 
   4. Click the run button -- looks like a play button on a TV remote -- to run. 
+
+
+Future RoadMap:
+- Try to determine which people are in each photo of the day to create a list of people met that day. 
+- Create a widget which allows the user to take a picture, and that picture automatically takes place as the photo of the day. 
