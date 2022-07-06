@@ -12,6 +12,7 @@ struct AddEntryView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var showingPicker = false
+    @State private var calendarId: Int = 0
 //    @State var isPassedInThroughEdit : Bool
     
     
@@ -32,8 +33,13 @@ struct AddEntryView: View {
 
                 Section(header: Text("Choose the date of the entry")){
                     DatePicker("Entry's date", selection: $date, displayedComponents: .date)
-                        .onChange(of: date) { newValue in
+                        .id(calendarId)
+                        .onChange(of: date, perform: { _ in
                             checkForRepetiton()
+                          calendarId += 1
+                        })
+                        .onTapGesture {
+                          calendarId += 1
                         }
                 }
                 Section(header: Text("PHOTO OF THE DAY")) {
