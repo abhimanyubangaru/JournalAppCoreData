@@ -6,11 +6,16 @@
 //
 
 import SwiftUI
+import MessageUI
 
 struct EntryView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var vm : EntriesViewModel
     @State private var showEdit = false
+    
+    private let messageComposeDelegate = MessageDelegate()
+    
+    
     var entry : JournalEntry
     
     var body: some View {
@@ -52,7 +57,13 @@ struct EntryView: View {
                     }
                     .buttonStyle(BorderlessButtonStyle())
                 }
-                
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            self.presentMessageCompose(subject: entry.memorableMoment ?? "" , body: entry.entry ?? "")
+                        } label: {
+                            Image(systemName: "message.fill")
+                        }
+                    }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink{
                         AddEntryView(repEntry: entry)
@@ -68,5 +79,34 @@ struct EntryView: View {
     
     var backgoundColor : Color {
         vm.rectViewColor(for: Int(entry.moodNumber))
+    }
+}
+
+// MARK: The message part
+extension EntryView {
+
+    /// Delegate for view controller as `MFMessageComposeViewControllerDelegate`
+    private class MessageDelegate: NSObject, MFMessageComposeViewControllerDelegate {
+        func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+            // Customize here
+            controller.dismiss(animated: true)
+        }
+
+    }
+
+    /// Present an message compose view controller modally in UIKit environment
+    private func presentMessageCompose(subject : String, body : String) {
+        guard MFMessageComposeViewController.canSendText() else {
+            return
+        }
+        let vc = UIApplication.shared.keyWindow?.rootViewController
+
+        let composeVC = MFMessageComposeViewController()
+        composeVC.messageComposeDelegate = messageComposeDelegate
+        let cont = subject + "\n" + body
+        composeVC.body = cont
+
+        vc?.present(composeVC, animated: true) 
+        
     }
 }

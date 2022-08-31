@@ -13,10 +13,8 @@ struct AddEntryView: View {
     
     @State private var showingPicker = false
     @State private var calendarId: Int = 0
-//    @State var isPassedInThroughEdit : Bool
     
-    
-    @State private var date = Date()
+    @State private var date : Date = Date()
     @State private var foundRep = false
     @State var repEntry : JournalEntry?
     @State private var entryText = ""
@@ -28,9 +26,7 @@ struct AddEntryView: View {
     
     var body: some View {
         GeometryReader{ geometry in
-            
             Form{
-
                 Section(header: Text("Choose the date of the entry")){
                     DatePicker("Entry's date", selection: $date, displayedComponents: .date)
                         .id(calendarId)
@@ -43,7 +39,6 @@ struct AddEntryView: View {
                         }
                 }
                 Section(header: Text("PHOTO OF THE DAY")) {
-                  //  VStack(alignment: .leading){
                         HStack {
                             togglePhotoPicker
                             Spacer()
@@ -58,8 +53,6 @@ struct AddEntryView: View {
                         }
                             Spacer()
                         }
-                    //}
-                    
                 }
                 Section("How are you feeling?") {
                     Slider(value: $moodNumber, in: 0...10, step: 1)
@@ -68,42 +61,36 @@ struct AddEntryView: View {
                 
                 Section(header: Text("Enter your entry's memorable moment")) {
                     TextEditor(text: $memorableMomentText)
-                    .frame(width: geometry.size.width / 1.5, height: geometry.size.height / 6, alignment: .center)
-                    .keyboardType(.default)
+                    .frame(minWidth: geometry.size.width / 1.5, minHeight: geometry.size.height / 6, alignment: .center)
+                    
                 }
                 
                 Section(header: Text("Enter your journal entry")) {
                     TextEditor(text: $entryText)
-                    .frame(width: geometry.size.width / 1.5, height: geometry.size.height / 3, alignment: .center)
-                    .keyboardType(.default)
+                    .frame(minWidth: geometry.size.width / 1.5, minHeight: geometry.size.height / 3, alignment: .center)
+
                 }
-                
-//                if(isPassedInThroughEdit){
-//                    HStack{
-//                        dismiss
-//                        Spacer()
-//                        button
-//                    }
-//                }
                    
             }
-            .onTapGesture {
-                      self.hideKeyboard()
-                    }
-        }
-        
-        .navigationBarTitle("\(date.formatted(date: .abbreviated, time: .omitted))")
-        .toolbar{
-            ToolbarItem{
-                button
+            
+            .navigationBarTitle("\(date.formatted(date: .abbreviated, time: .omitted))")
+            .toolbar{
+                ToolbarItem{
+                    button
+                        .buttonStyle(.bordered)
+                }
+            }
+            .padding()
+            .onAppear(perform: checkFirst)
+            .sheet(isPresented: $showingPicker){
+                PhotoPicker(chosenImage: $displayChosenImage, imageData: $imageData)
             }
         }
-        .padding()
-        .onAppear(perform: checkFirst)
-        .sheet(isPresented: $showingPicker){
-            PhotoPicker(chosenImage: $displayChosenImage, imageData: $imageData)
-        }
-        
+//        .onTapGesture {
+//                  self.hideKeyboard()
+//                }
+
+
     }
     
     var button : some View {
@@ -116,14 +103,6 @@ struct AddEntryView: View {
             self.presentationMode.wrappedValue.dismiss()
         } label: {
             Image(systemName: "checkmark.seal")
-        }
-    }
-    
-    var dismiss : some View {
-        Button {
-            presentationMode.wrappedValue.dismiss()
-        } label: {
-            Image(systemName: "arrow.backward.circle")
         }
     }
     
@@ -155,20 +134,25 @@ struct AddEntryView: View {
     }
 
     func checkFirst() {
+//        if let repEntry = repEntry {
+//            self.moodNumber = Double(repEntry.moodNumber)
+//            self.memorableMomentText = repEntry.memorableMoment ?? ""
+//            self.entryText = repEntry.entry ?? ""
+//            self.date = repEntry.date!
+//            self.imageData = repEntry.imageData
+//            let data = repEntry.imageData
+//            if data != nil {
+//                self.displayChosenImage = Image(uiImage: UIImage(data: repEntry.imageData!)!)
+//            }
+//            foundRep = true
+//        } else {
+//            checkForRepetiton()
+//        }
         if let repEntry = repEntry {
-            self.moodNumber = Double(repEntry.moodNumber)
-            self.memorableMomentText = repEntry.memorableMoment ?? ""
-            self.entryText = repEntry.entry ?? ""
-            self.date = repEntry.date!
-            self.imageData = repEntry.imageData
-            var data = repEntry.imageData
-            if data != nil {
-                self.displayChosenImage = Image(uiImage: UIImage(data: repEntry.imageData!)!)
-            }
-            foundRep = true
-        } else {
-            checkForRepetiton()
+            date = repEntry.date!
         }
+            checkForRepetiton()
+        
     }
     
     func checkForRepetiton(){ //goes through all the entries to see if there is a repetition

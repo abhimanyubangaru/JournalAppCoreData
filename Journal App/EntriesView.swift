@@ -142,16 +142,16 @@ struct EntriesView: View {
         }
     }
     
-    var animatedRectangle: some View {
-        Rectangle()
-            .animatableGradient(fromGradient: gradient1, toGradient: gradient2, progress: progress)
-            .ignoresSafeArea()
-            .onAppear {
-                withAnimation(.linear(duration: 5.0).repeatForever(autoreverses: true)) {
-                    self.progress = 1.0
-                }
-            }
-    }
+//    var animatedRectangle: some View {
+//        Rectangle()
+//            .animatableGradient(fromGradient: gradient1, toGradient: gradient2, progress: progress)
+//            .ignoresSafeArea()
+//            .onAppear {
+//                withAnimation(.linear(duration: 5.0).repeatForever(autoreverses: true)) {
+//                    self.progress = 1.0
+//                }
+//            }
+//    }
     
     
     
