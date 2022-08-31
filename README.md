@@ -13,6 +13,7 @@ Issues:
 1. Changing the Date in the Add Entry View isn't the smoothest after trying to auto dismiss after changing date. 
 2. When trying to update an entry(calling AddEntryView through EntryView with press of top right pencil button), as soon as the text editor is pressed, the link is immediately dismissed and user is returned to EntryView. I think the issue might have something to do with the way I size the Form, but I would like some help trying to figure this out. 
 3. I would like to use an api(possibly Photokit) to retreive the people in the photo the user adds, so I can create a list of people met and display in Entry View. 
+4. BUG -> journal app won't dismiss message controller after sending the text(it successfully sends the text) 
 
 Future RoadMap:
 - Try to determine which people are in each photo of the day to create a list of people met that day. 
