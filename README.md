@@ -3,6 +3,12 @@ After learning more, trying to use Swiftui Core Data MVVM to create a journal ap
 
 I used Xcode 13.4 to create this project, and it should run on iOS 14+. I stored all the entry information using CoreData. I haven't really used any additional dependancies besides apple's own packages, so the build should be pretty simple. 
 
+Technologies Used:
+  1. SwiftUI
+  2. CoreData
+  3. UIKit
+  4. MessageUI
+
 Build Instructions: 
   1. Clone the repo onto device. 
   2. Click on the .xcodeproj file. 
