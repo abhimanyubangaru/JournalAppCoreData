@@ -36,8 +36,8 @@ struct EntriesView: View {
 
     
     var body: some View {
-        GeometryReader{ geometry in
-            NavigationView {
+        NavigationView {
+            GeometryReader{ geometry in
                 ZStack{
                     AngularGradient(gradient: Gradient(colors: [Color(gradientColor1),Color(gradientColor2),Color(gradientColor2),Color(gradientColor1)]), center: .topLeading)
                         .opacity(0.5)
