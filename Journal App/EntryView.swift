@@ -21,7 +21,7 @@ struct EntryView: View {
     var body: some View {
         GeometryReader{
             geometry in
-            ZStack{
+            ZStack(alignment: .leading){
                     LinearGradient(gradient: Gradient(colors: [Color(UIColor(backgoundColor).inverseColor()), backgoundColor]), startPoint: .top, endPoint: .bottom)
                         .edgesIgnoringSafeArea(.all)
                 VStack(alignment: .leading){
@@ -32,18 +32,19 @@ struct EntryView: View {
                                 .scaledToFit()
                                 .frame(maxWidth: geometry.size.width * 0.99, maxHeight: geometry.size.height / 3)
                             }
-                            
-                            Text(entry.memorableMoment ?? " NO mm")
-                                .font(.headline)
-                                .padding()
-                            Text(entry.entry ?? "No entry")
-                                .multilineTextAlignment(.leading)
-                                .font(.subheadline)
-                                .padding()
+                            VStack(alignment: .leading){
+                                Text(entry.memorableMoment ?? " NO mm")
+                                    .padding()
+                                    .font(.largeTitle)
+                                Text(entry.entry ?? "No entry")
+                                    .multilineTextAlignment(.leading)
+                                    .font(.body)
+                                    .padding(.horizontal)
+                            }
                         }
-                    }
                 }
-                .navigationBarTitle("Entry on \(entry.date?.formatted(date: .abbreviated, time: .omitted) ?? "DELETED")")
+                }
+            .navigationBarTitle("Entry on \(entry.date?.formatted(date: .abbreviated, time: .omitted) ?? "DELETED")", displayMode: .inline)
 //                .sheet(isPresented: $showEdit){
 //                    AddEntryView(isPassedInThroughEdit: true, repEntry: entry)
 //                }

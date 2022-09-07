@@ -39,7 +39,30 @@ class EntriesViewModel : ObservableObject {
         }
     }
     
+    func isThereAEntryOnSpecificDate(date inputDate : Date) -> Bool {
+        fetchEntries()
+        for entry in savedEntries {
+            let components = Calendar.current.dateComponents([.month, .day,.year], from: inputDate)
+            let components2 = Calendar.current.dateComponents([.month, .day,.year], from: entry.date!)
+            if components.month == components2.month && components.day == components2.day && components.year == components2.year{
+                return true
+            }
+        }
+        return false;
+    }
     
+    func getEntryOnSpecificDate(date inputDate : Date) -> JournalEntry? {
+        if(isThereAEntryOnSpecificDate(date: inputDate)){
+            for entry in savedEntries {
+                let components = Calendar.current.dateComponents([.month, .day,.year], from: inputDate)
+                let components2 = Calendar.current.dateComponents([.month, .day,.year], from: entry.date!)
+                if components.month == components2.month && components.day == components2.day && components.year == components2.year{
+                    return entry
+                }
+            }
+        }
+        return nil; 
+    }
     
     func updateEntry(entryEntity entity: JournalEntry, entryText : String, memorableMomentText mmText : String, moodNumber mdNum : Double, imageData iData : Data?) {
         entity.entry = entryText

@@ -1,10 +1,9 @@
-//
+////
 //  EntriesView.swift
 //  Journal App
 //
 //  Created by Abhi B on 6/14/22.
 //
-
 import SwiftUI
 
 extension View {
@@ -76,6 +75,7 @@ struct EntriesView: View {
                                         EntryView(entry: entry)
                                     } label: {
                                         RectangleView(geometry: geometry.size, content: entry.date?.formatted(date: .abbreviated, time: .omitted) ?? "BYE BYE", endColor: vm.rectViewColor(for: Int(entry.moodNumber)))
+                                            .animation(.interpolatingSpring(stiffness: 350, damping: 5, initialVelocity: 10))
                                     }
                                     
                                     .simultaneousGesture(longPressDeleteEntry(on: entry))
@@ -104,15 +104,15 @@ struct EntriesView: View {
                                 }
                                 
                             }
-                            ToolbarItem(placement: .navigationBarLeading){
-                                Button {
-                                    withAnimation {
-                                        showChart.toggle()
-                                    }
-                                } label: {
-                                    Image(systemName: "chart.xyaxis.line")
-                                }
-                            }
+//                            ToolbarItem(placement: .navigationBarLeading){
+//                                Button {
+//                                    withAnimation {
+//                                        showChart.toggle()
+//                                    }
+//                                } label: {
+//                                    Image(systemName: "chart.xyaxis.line")
+//                                }
+//                            }
                         }
                         .alert(isPresented: $showDeleteAlert) {
                             Alert(title: Text("Confirm Deletion"),

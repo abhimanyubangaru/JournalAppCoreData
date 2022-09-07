@@ -4,7 +4,6 @@
 //
 //  Created by Abhi B on 6/15/22.
 //
-
 import SwiftUI
 
 struct RectangleView: View {
@@ -13,17 +12,17 @@ struct RectangleView: View {
     var endColor : Color
     
     var body: some View {
-        Text(content)
-            .bold()
-            .frame(width: geometry.width/3.5, height: geometry.height/7)
-            .background(
-                LinearGradient(gradient: Gradient(colors: [Color(UIColor(endColor).inverseColor()), endColor]), startPoint: .top, endPoint: .bottom)
-            )
-            .foregroundColor(.black)
-            .cornerRadius(20)
-            .shadow(color: .gray, radius: 4, x: 1, y: 1)
-            .opacity(0.95)
-            
+            Text(content)
+                .bold()
+                .frame(width: geometry.width/3.25, height: geometry.width/3.25)
+                .background(
+                    LinearGradient(gradient: Gradient(colors: [Color(UIColor(endColor).inverseColor()), endColor]), startPoint: .top, endPoint: .bottom)
+                )
+                .foregroundColor(.black)
+                .cornerRadius(20)
+                .shadow(color: .gray, radius: 4, x: 1, y: 1)
+                .opacity(0.95)
+
     }
 }
 

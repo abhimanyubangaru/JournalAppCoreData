@@ -86,9 +86,9 @@ struct AddEntryView: View {
                 PhotoPicker(chosenImage: $displayChosenImage, imageData: $imageData)
             }
         }
-//        .onTapGesture {
-//                  self.hideKeyboard()
-//                }
+        .onTapGesture {
+                  self.hideKeyboard()
+                }
 
 
     }
