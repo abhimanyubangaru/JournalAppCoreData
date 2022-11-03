@@ -14,7 +14,7 @@ struct RectangleView: View {
     var body: some View {
             Text(content)
                 .bold()
-                .frame(width: geometry.width/3.25, height: geometry.width/3.25)
+                .frame(width: geometry.width/3.3, height: geometry.width/3.3)
                 .background(
                     LinearGradient(gradient: Gradient(colors: [Color(UIColor(endColor).inverseColor()), endColor]), startPoint: .top, endPoint: .bottom)
                 )
