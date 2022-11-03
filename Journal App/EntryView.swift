@@ -45,11 +45,8 @@ struct EntryView: View {
                 }
                 }
             .navigationBarTitle("Entry on \(entry.date?.formatted(date: .abbreviated, time: .omitted) ?? "DELETED")", displayMode: .inline)
-//                .sheet(isPresented: $showEdit){
-//                    AddEntryView(isPassedInThroughEdit: true, repEntry: entry)
-//                }
                 .toolbar {
-                ToolbarItem(placement: .bottomBar) {
+                    ToolbarItem(placement: .destructiveAction) {
                     Button {
                         vm.deleteEntry(entry: entry)
                         presentationMode.wrappedValue.dismiss()

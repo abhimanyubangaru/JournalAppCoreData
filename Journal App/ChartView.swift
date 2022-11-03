@@ -23,5 +23,4 @@
 //            .frame(width: size.width, height: size.height/6)
 //        }
 //    }
-//boo
 //}
